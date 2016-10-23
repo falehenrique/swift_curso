@@ -129,4 +129,43 @@ print("Valor do quarto: \(hotel2.roomPrice)")
 // BOAS PRÁTICAS: Métodos (funções) podem ser utilizados ao invés de computed properties? Sim, claro, mas na minha visão, com as propriedades calculadas a implementação fica mais simples e limpa. É uma questão de estilo de codificação
 
 
+//: Property Observers
+
+/*
+ Os property observers, ou simplesmente observadores, é um recurso muito legal da Swift.
+ Elas observam e respondem a alterações em propriedades.
+ Elas são chamadas sempre que o valor de uma propriedade é modificada
+ Temos a opção de definirmos 2 tipos de observadores:
+ - willSet, que é chamado antes do valor ser alterado
+ - didSet, que é chamado imediatamente após ser alterado
+ Vejamos um exemplo
+ */
+class Hotel3 {
+    var roomCount:Int
+    var roomPrice:Int {
+        didSet {
+            if roomPrice > 1000 {
+                roomPrice = 1000
+            }
+        }
+    }
+    
+    var totalPrice:Int {
+        get {
+            return roomCount * roomPrice
+        }
+    }
+    
+    init(roomCount: Int = 10, roomPrice: Int = 100) {
+        self.roomCount = roomCount
+        self.roomPrice = roomPrice
+    }
+}
+//  Neste caso, utilizamos o observer para limitar o valor máximo de um quarto para $1000. Muito legal, né?
+let hotel3 = Hotel3(roomCount: 30, roomPrice: 100)
+// Tentativa de alteração (indevida) do valor do quarto
+hotel3.roomPrice = 1500
+print("Valor atualizado do quarto: \(hotel3.roomPrice)")
+// Observer garantiu limite estabelecido pela regra de negócio
+
 
